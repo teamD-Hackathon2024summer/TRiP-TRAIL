@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  fastapi:
+    build:
+      context: ./apis
+      args:
+        - MY_UID=${MY_UID}
+        - MY_GID=${MY_GID}
+        - PORT_FAST=${PORT_FAST}
+    volumes:
+      - ./apis:/home/appuser/devcon
+    env_file:
+      - .env
+    networks:
+      - hackathon_summer_network
+    ports:
+      - ${PORT_FAST}:${PORT_FAST}
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT_FAST}"]
+
+  mysql_fast:
+    build:
+      context: ./mysql
+      args:
+        - PORT_MYSQL_FAST=${PORT_MYSQL_FAST}
+        - MYSQL_USER=${MYSQL_USER}
+    volumes:
+      - ./mysql/data/db:/var/lib/mysql
+    environment:
+      - TZ=Asia/Tokyo
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    networks:
+      - hackathon_summer_network
+    ports:
+      - ${PORT_MYSQL_FAST}:3306
+
+  pma_fast:
+    build:
+      context: ./phpmyadmin
+    env_file:
+      - .env
+    networks:
+      - hackathon_summer_network
+    environment:
+      PMA_HOST: ${MYSQL_HOST_FAST}
+      PMA_PORT: ${PORT_MYSQL_FAST}
+    ports:
+      - ${PORT_PMA_FAST}:80
+    volumes:
+      - ./phpmyadmin/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    volumes:
+      - ./nginx/reverse_proxy.conf:/etc/nginx/conf.d/reverse_proxy.conf
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - hackathon_summer_network
+    depends_on:
+      - fastapi
+      - pma_fast
+    restart: always
+
+networks:
+  hackathon_summer_network:
+    name: hackathon_summer_network

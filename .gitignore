@@ -1,0 +1,15 @@
+# Ignore MySQL data directory
+mysql/data/db/
+
+# Ignore other temporary files or directories
+*.log
+*.pid
+*.sock
+*.env
+
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# Ignore environment configuration files
+.env

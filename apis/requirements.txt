@@ -1,0 +1,10 @@
+fastapi
+sqlalchemy
+pymysql
+alembic
+uvicorn
+passlib
+databases
+aiomysql
+python-jose
+googlemaps
