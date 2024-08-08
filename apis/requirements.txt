@@ -8,3 +8,4 @@ databases
 aiomysql
 python-jose
 googlemaps
+cryptography
