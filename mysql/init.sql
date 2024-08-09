@@ -1,4 +1,4 @@
-USE MYSQL_DATABASE;
+USE mydatabase;
 
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
