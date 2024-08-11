@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+  {% block title %}TRiP TRAIL - 予定一覧{% endblock %}
+  {% block contents %}
+  <div class="page-wrapper">
+    <header class="page-header">
+      <nav>
+        <ul class="main-nav">
+          <li><a href="/users/{{user_id}}"><span class="material-symbols-outlined">
+            settings
+            </span>setting</a></li>
+          <li><a href="/logout"><span class="material-symbols-outlined">
+            logout
+            </span>logout</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="align-center">
+      <a class="btn1" href="/schedules">旅行計画を新規作成</a>
+    </div>
+    <div class="list">
+      <table class="card" id="{{schedule.schedule_id}}">
+        <tr>
+          <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
+          <td class="trip-date">日　付：練習です</td>
+          <td class="edit" rowspan="2"><button><span class="material-symbols-outlined">edit_square</span></button></td>
+        </tr>
+        <tr>
+          <td class="destination">目的地：練習です</td>
+        </tr>
+        <tr>
+          <td class="route" rowspan="2"><button class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
+          <td class="delete" rowspan="2"><button><span class="material-symbols-outlined">delete</span></button></td>
+        </tr>
+      </table>
+      <!-- jinja2template DBからuser_idに紐づいたschedulesの行を取得、行数に応じて付箋を表示 -->
+      {% for schedule in schedules %}
+      <table class="card" id="{{schesule.schedule_id}}">
+        <tr>
+          <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
+          <td class="trip-date">日　付：{{schedule.date}}</td>
+          <td class="edit" rowspan="2"><button><span class="material-symbols-outlined">edit_square</span></button></td>
+        </tr>
+        <tr>
+          <td class="destination">目的地：{{schedule.destination}}</td>
+        </tr>
+        <tr>
+          <td class="route" rowspan="2"><button class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
+          <td class="delete" rowspan="2"><button><span class="material-symbols-outlined">delete</span></button></td>
+        </tr>
+      </table>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock %}

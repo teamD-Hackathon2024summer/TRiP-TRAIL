@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+  {% block title %}TRiP TRAIL - 予定の作成{% endblock %}
+  {% block contents %}
+  <div class="page-wrapper">
+    <header class="page-header">
+      <nav>
+        <ul class="main-nav">
+          <li><a href="/users/{{user_id}}">
+            <span class="material-symbols-outlined">
+            settings
+            </span>setting</a></li>
+          <li><a href="/logout"><span class="material-symbols-outlined">
+            logout
+            </span>logout</a></li>
+        </ul>
+     </nav>
+    </header>
+    <div class="container">
+      <div class="form-box">
+        <p class="form-title">予定の作成</p>
+        <form class="form-items" action="/schedules"  method="post" id="form">
+        <dev class="form-item">
+          <label name="date">日付</label>
+          <input type="date" class="form" name="date">
+        </dev>
+        <dev class="form-item">
+          <label name="destination">目的地</label>
+          <input type="text" class="form" name="destination">
+        </dev>
+        <dev class="form-item">  
+          <label name="destinetion_address">目的地（住所）</label>
+          <input type="text" class="form" name=" destinetion_address">
+        </dev>  
+        <div class="btn-align">
+            <button type="button" class="btn2" onclick="history.back()">戻る</button>
+            <input type="submit" class="btn1" value="追加">
+        </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+  {% endblock %}
