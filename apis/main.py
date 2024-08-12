@@ -1,6 +1,14 @@
 from fastapi import FastAPI
-from routers.routes import router
+from routers.routes import router as routes_router
+from routers.views import router as views_router
 
 app = FastAPI()
 
-app.include_router(router)
+# ルーターをインクルード
+app.include_router(routes_router)
+app.include_router(views_router)
+
+# ルートエンドポイント
+@app.get("/")
+async def read_root():
+    return {"message": "Hello World"}
