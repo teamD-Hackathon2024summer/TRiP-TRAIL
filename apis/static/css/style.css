@@ -1,0 +1,215 @@
+@charset "utf-8";
+
+/* 共通部分 */
+html {
+  font-size: 100%;
+}
+body {
+  /* font-family: 'Hiragino Kaki Gothic ProN', 'Hiragino Sans', 'BIZ UDPGothic', sans-serif; */
+  line-height: 1.7;
+  color: #432;
+  background-color: #ffff80;
+}
+a {
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+}
+
+/* レイアウト */
+.align-center {
+  text-align: center;
+}
+.wrapper {
+  max-width: 1120px;
+  margin: auto;
+  padding: 0 1.5rem;
+}
+
+.container {
+  width: 100%;
+  /* max-width: 1120px; */
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+/* メイン画面のヘッダー */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.logo {
+  width: 90px;
+  height: auto;
+}
+.logo-loginsignup {
+  width: 90px;
+  height: auto;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1.3rem;
+  list-style: none;
+  /* padding-top: 1rem; */
+}
+
+.main-nav a {
+  color: #432;
+  border-bottom: #432 1px solid;
+}
+
+.main-nav a:hover {
+  color: #0bd;
+}
+
+/* ボタン */
+.btn1 {
+  display: inline-block;
+  font-size: 1rem;
+  background-color: #ffcc4d;
+  color: #c14f4f;
+  border-radius: 48px;
+  padding: 0.75rem 1.5rem;
+  border-style: none;
+}
+.btn1:hover {
+  background-color: #fdb705;
+}
+
+.btn2 {
+  display: inline-block;
+  font-size: 1rem;
+  background-color: #0bd;
+  color: #ffffff;
+  border-radius: 48px;
+  padding: 0.75rem 1.5rem;
+  border-style: none;
+}
+.btn2:hover {
+  background-color: #0090aa;
+}
+.btn-center {
+  text-align: center;
+  margin: 1rem;
+}
+.move {
+  border-bottom: #432 1px solid;
+  color: #432;
+}
+/* 付箋ぽいリスト */
+.list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 1.3rem;
+  padding-top: 1.5rem;
+  margin: 2rem;
+}
+
+.card {
+  display: inline-block;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #432;
+  border-radius: 2px;
+  padding: 0.75rem 0.7rem;
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  height: auto;
+  border-left: #c14f4f 40px solid;
+}
+
+/* 入力フォーム */
+.login-signup {
+  /* background-color: #ffffff; */
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  /* background-color: cadetblue; */
+}
+
+.form-items {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* background-color: blueviolet; */
+  width: 100%;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.form-box {
+  background-color: #ffffff;
+  border-radius: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  margin: auto;
+}
+.form-item input[type='text'],
+[type='password'],
+[type='date'] {
+  background-color: #ffffff;
+  appearance: none;
+  width: 100%;
+  max-width: 450px;
+  padding: 10px 20px 8px 20px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1) inset;
+  font-size: 16px;
+}
+.form-title {
+  /* background-color: aquamarine; */
+  font-size: 25px;
+  font-weight: bold;
+  color: brown;
+  margin-bottom: 1rem;
+}
+.btn-align {
+  /* background-color: chocolate; */
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* デスクトップで表示したときの対応 */
+@media (min-width: 800px) {
+  /* ログイン・新規登録画面 */
+  .logo-align {
+    align-self: right;
+  }
+  .logo-loginsignup {
+    width: 90%;
+    align-items: center;
+    /* max-height: 100%; */
+  }
+  .desktop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+}

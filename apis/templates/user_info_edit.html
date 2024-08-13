@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRiP TRAIL</title>
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:400,500" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <header class="page-header wrapper">
+    <h1>
+      <a href="index.html"><img class="logo" src="../img/trip_trail_logo.jpg" alt=""></a>
+    </h1>
+    <nav>
+      <ul class="main-nav">
+        <li><a href="/users/{user_id}">setting</a></li>
+        <li><a href="/login">logout</a></li>
+      </ul>
+    </nav>
+  </header>
+    <div class="login-signup">
+      <p class="form-title">ユーザー情報</p>
+      <form class="form-items" action="/users/{user_id}"  method="post" id="form">
+        <dev class="form-item">
+          <p>名前</p>
+          <input type="text" class="form" name="name" placeholder="山田一郎">
+        </dev>
+        <dev class="form-item">
+          <p>メールアドレス</p>
+          <input type="text" class="form" name="mail" placeholder="abcdefg@gmail.com">
+        </dev>
+        <dev class="form-item">
+          <p>パスワード</p>
+          <input type="password" class="form" name="pass" placeholder="●●●●●●●●">
+        </dev>  
+        <dev class="form-item">
+          <p>パスワード（確認用）</p>
+          <input type="password" class="form" name="pass-again">
+        </dev>  
+        <dev class="form-item">
+          <p>現住所</p>
+          <input type="text" class="form" name="my-address" placeholder="東京都葛飾区亀有5-34-1">
+        </dev>  
+        <div class="btn-align">
+          <button type="button" class="btn2" onclick="history.back()">戻る</button>
+          <input type="submit" class="btn1" value="変更する">
+        </div>
+      </form>
+    </div>  
+</body>
+
+</html>

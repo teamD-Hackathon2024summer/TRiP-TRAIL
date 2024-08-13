@@ -42,17 +42,3 @@ def get_schedules(user_id):
     params = (user_id,)
     with DatabaseHandler() as db:
         return db.get_data(query = query, params = params)
-    
-# ユーザー名でユーザーを取得する関数
-def get_user_by_username(user_name: str):
-    query = 'SELECT user_id, user_name, email, password, user_address FROM users WHERE user_name = %s'
-    params = (user_name,)
-    with DatabaseHandler() as db:
-        return db.get_data(query = query, params = params)
-
-# メールアドレスでユーザーを取得する関数
-def get_user_by_email(email: str):
-    query = 'SELECT user_id, user_name, email, password, user_address FROM users WHERE email = %s'
-    params = (email,)
-    with DatabaseHandler() as db:
-        return db.get_data(query = query, params = params)

@@ -1,42 +1,50 @@
-{% extends 'base.html' %}
-  {% block title %}TRiP TRAIL - signup{% endblock %}
-  {% block contents %}
-  <div class="page-wrapper">
-    <div class="login-signup-box">
-      <h1 class="logo-align">
-        <img class="logo-loginsignup" src="../static/img/trip_trail_logo.jpg" alt="">
-      </h1>
-      <div class="login-signup-items">
-        <p class="form-title">新規登録</p>
-        <form class="form-items" action="/login"  method="post" id="form">
-        <dev class="form-item">
-          <label name="user_name">名前</label>
-          <input type="text" class="form" name="user_name">
-        </dev>
-        <dev class="form-item">
-          <label name="email">メールアドレス</label>
-          <input type="text" class="form" name="email">
-        </dev>
-        <dev class="form-item">
-          <label name="password">パスワード</label>
-          <input type="password" class="form" name="password">
-        </dev>  
-        <dev class="form-item">
-          <label name="password2">パスワード（確認用）</label>
-          <input type="password" class="form" name="password2">
-        </dev>  
-        <dev class="form-item">
-          <label name="user_address">現住所</label>
-          <input type="text" class="form" name="user_address">
-        </dev>  
-        <div class="btn-center">
-          <input type="submit" class="btn1" value="新規登録">
-        </div>
-        </form>
-        <div class="btn-center">
-          <a class="align-center move" href="/login">ログインはこちら</a>
-        </div>
-      </div> 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRiP TRAIL</title>
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:400,500" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body class="desktop">
+  <header class="page-header wrapper">
+    <h1 class="logo-align">
+      <a href="/index"><img class="logo-loginsignup" src="/static/img/trip_trail_logo.jpg" alt=""></a>
+    </h1>
+  </header>
+    <div class="login-signup">
+      <p class="form-title">新規登録</p>
+      <form class="form-items" action="/signup" method="post" id="form">
+      <div class="form-item">
+        <p>名前</p>
+        <input type="text" class="form" name="user_name">
+      </div>
+      <div class="form-item">
+        <p>メールアドレス</p>
+        <input type="text" class="form" name="email">
+      </div>
+      <div class="form-item">
+        <p>パスワード1</p>
+        <input type="password" class="form" name="password1">
+      </div>
+      <div class="form-item">
+        <p>パスワード2</p>
+        <input type="password" class="form" name="password2">
+      </div>
+      <div class="form-item">
+        <p>現住所</p>
+        <input type="text" class="form" name="user_address">
+      </div>
+      <div class="btn-center">
+        <input type="submit" class="btn1" value="新規登録">
+      </div>
+      </form>
+      <div class="btn-center">
+        <a class="align-center move" href="/login">ログインはこちら</a>
+      </div>
     </div>
-  </div> 
-  {% blockend %}
+</body>
+</html>
