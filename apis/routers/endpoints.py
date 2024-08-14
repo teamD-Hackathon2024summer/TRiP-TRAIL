@@ -29,11 +29,11 @@ class AddSchedule:
     description = """予定を追加します"""
 
 class EditSchedule:
-    endpoint = "/schedules"
+    endpoint = "/schedules/{schedule_id}"
     summary = "予定の変更"
     description = """予定を変更します"""
 
 class DelSchedule:
-    endpoint = "/schedules"
+    endpoint = "/schedules/{schedule_id}"
     summary = "予定の削除"
     description = """予定を削除します"""

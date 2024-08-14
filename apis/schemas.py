@@ -120,40 +120,6 @@ class ScheduleCreate(BaseModel):
     destination: str
     destination_address: str
 
-# # 過去の日付でないことを確認
-#     @validator('date')
-#     def validate_date(cls, v):
-#         if v and v < date.today():
-#             raise ValueError('The date cannot be in the past.')
-#         return v
-
-# # 日付が空でないことを確認
-#     @validator('date')
-#     def name_not_empty(cls, v):
-#         if not v:
-#             raise ValueError('Date must be filled')
-#         return v
-
-#     # 目的地名称が空でないことを確認
-#     @validator('destination')
-#     def email_not_empty(cls, v):
-#         if not v:
-#             raise ValueError('Destination must be filled')
-#         return v
-
-#     # 目的地住所が空でないことを確認
-#     @validator('destination_address')
-#     def password1_not_empty(cls, v):
-#         if not v:
-#             raise ValueError('Destination_address must be filled')
-#         return v
-
-# スケジュール変更のバリテーション
-class ScheduleEdit(BaseModel):
-    date: Optional[dt_date] = None
-    destination: Optional[str] = None
-    destination_address: Optional[str] = None
-
 # 過去の日付でないことを確認
     @validator('date')
     def validate_date(cls, v):
@@ -161,6 +127,36 @@ class ScheduleEdit(BaseModel):
             raise ValueError('The date cannot be in the past.')
         return v
 
-class RouteRequest(BaseModel):
-    origin: str
-    destination: str
+    # 日付が空でないことを確認
+    @validator('date')
+    def name_not_empty(cls, v):
+        if not v:
+            raise ValueError('Date must be filled')
+        return v
+
+    # 目的地名称が空でないことを確認
+    @validator('destination')
+    def email_not_empty(cls, v):
+        if not v:
+            raise ValueError('Destination must be filled')
+        return v
+
+    # 目的地住所が空でないことを確認
+    @validator('destination_address')
+    def password1_not_empty(cls, v):
+        if not v:
+            raise ValueError('Destination_address must be filled')
+        return v
+
+# スケジュール変更のバリテーション
+class ScheduleEdit(BaseModel):
+    date: Optional[dt_date] = None
+    destination: Optional[str] = None
+    destination_address: Optional[str] = None
+
+    # 過去の日付でないことを確認
+    @validator('date')
+    def validate_date(cls, v):
+        if v and v < dt_date.today():
+            raise ValueError('The date cannot be in the past.')
+        return v

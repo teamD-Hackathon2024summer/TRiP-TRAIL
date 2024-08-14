@@ -8,14 +8,12 @@ from models import create_user, update_user, create_schedule, update_schedule, g
 from users import get_user_by_username, get_user_by_email
 from security import hash_password, authenticate_user, create_access_token,get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import timedelta, date as dt_date
-import googlemaps
+# import googlemaps
 import os
 
 router = APIRouter()
 
 templates = Jinja2Templates(directory="templates")
-
-gmaps = googlemaps.Client(key=os.getenv("GMAPS_API_KEY"))
 
 """ テスト用 ユーザーの情報を取得するエンドポイント """
 @router.get("/users/me")
@@ -111,6 +109,7 @@ async def logout(response: Response):
 """ ユーザー情報変更のエンドポイント """
 
 # フォームデータを取得してUserEditへ渡す
+
 def get_edituser_form_data(
     user_name: Optional[str] = Form(None),
     email: Optional[str] = Form(None),
@@ -118,15 +117,16 @@ def get_edituser_form_data(
     password2: Optional[str] = Form(None),
     user_address: Optional[str] = Form(None),
 ) -> UserEdit:
-    return UserEdit(
-        user_name=user_name,
-        email=email,
-        password1=password1,
-        password2=password2,
-        user_address=user_address
-    )
+    form_data = {
+        "user_name": user_name,
+        "email": email,
+        "password1": password1,
+        "password2": password2,
+        "user_address": user_address
+    }
+    return UserEdit(**form_data)
 
-@router.patch("/users/me", summary="ユーザー情報変更", description="ユーザー情報を変更します")
+@router.patch("/users", summary="ユーザー情報変更", description="ユーザー情報を変更します")
 async def edit_user(
     user_data: UserEdit = Depends(get_edituser_form_data),
     current_user: dict = Depends(get_current_user)
@@ -219,16 +219,14 @@ async def add_schedule(
 
 """ 予定変更のエンドポイント """
 
-""" 予定変更のエンドポイント """
-
 # フォームデータを取得してScheduleEditへ渡す
 def get_editschedule_form_data(
-    dt_date: Optional[dt_date] = Form(None),
+    date: Optional[dt_date] = Form(None),
     destination: Optional[str] = Form(None),
     destination_address: Optional[str] = Form(None),
 ) -> ScheduleEdit:
     form_data = {
-        "date": dt_date,
+        "date": date,
         "destination": destination,
         "destination_address": destination_address,
     }
@@ -273,7 +271,7 @@ async def edit_schedule(
         raise HTTPException(status_code=400, detail=str(e))
 
 """ 予定削除のエンドポイント """
-@router.delete("/schedules", summary="予定の削除", description="予定を削除します")
+@router.delete("/schedules/{schedule_id}", summary="予定の削除", description="予定を削除します")
 async def del_schedule(
     schedule_id: int,
     current_user: dict = Depends(get_current_user)
@@ -294,4 +292,5 @@ async def del_schedule(
     
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
         
