@@ -1,38 +1,30 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRiP TRAIL</title>
-  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:400,500" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
-  <link href="/static/css/style.css" rel="stylesheet">
-</head>
-<body class="desktop">
-  <header class="page-header wrapper">
-    <h1>
-      <a href="/"><img class="logo-loginsignup" src="/static/img/trip_trail_logo.jpg" alt=""></a>
-    </h1>
-  </header>
-    <div class="login-signup">
-      <p class="form-title">login</p>
-      <form class="form-items" action="/login" method="post" id="form">
-      <div class="form-item">
-        <p>メールアドレス</p>
-        <input type="text" class="form" name="email">
-      </div>
-      <div class="form-item">
-        <p>パスワード</p>
-        <input type="password" class="form" name="password">
-      </div>  
-      <div class="btn-center">
-        <input type="submit" class="btn1" value="ログイン">
-      </div>
-      </form>
-      <div class="btn-center">
-        <a class="align-center move" href="/signup">新規登録はこちら</a>
+{% extends 'base.html' %}
+  {% block title %}TRiP TRAIL - login{% endblock %}
+  {% block contents %}
+  <div>
+    <div class="login-signup-box">
+      <h1 class="logo-align">
+        <img class="logo-loginsignup" src="/static/img/trip_trail_logo.jpg" alt="">
+      </h1>
+      <div class="login-signup-items">
+        <p class="form-title">login</p>
+        <form class="form-items"  action="/login" method="post" id="form">
+          <dev class="form-item">
+            <label name="email">メールアドレス</label>
+            <input type="text" class="form" name="email">
+          </dev>
+          <dev class="form-item">
+            <label name="password">パスワード</label>
+            <input type="password" class="form" name="password">
+          </dev>  
+          <div class="btn-center">
+            <input type="submit" class="btn1" value="ログイン">
+          </div>
+        </form>
+        <div class="btn-center">
+          <a class="align-center move" href="/signup">新規登録はこちら</a>
+        </div>
       </div>
     </div>  
-</body>
-</html>
+  </div>
+  {% endblock %} 

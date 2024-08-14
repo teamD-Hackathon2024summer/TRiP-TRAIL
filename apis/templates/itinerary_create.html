@@ -1,49 +1,42 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRiP TRAIL</title>
-  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p:400,500" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
-  <link href="/static/css/style.css" rel="stylesheet">
-</head>
-<body>
-  <header class="page-header wrapper">
-    <h1>
-      <a href="index.html"><img class="logo" src="../img/trip_trail_logo.jpg" alt=""></a>
-    </h1>
-    <nav>
-      <ul class="main-nav">
-        <li><a href="user_info_edit.html">setting</a></li>
-        <li><a href="login.html">logout</a></li>
-      </ul>
-    </nav>
-  </header>
-  <div class="container">
-    <div class="form-box">
-      <p class="form-title">予定の作成</p>
-      <form class="form-items" action="index.html"  method="post" id="form">
-      <dev class="form-item">
-        <p>日付</p>
-        <input type="date" class="form" name="date">
-      </dev>
-      <dev class="form-item">
-        <p>目的地</p>
-        <input type="text" class="form" name="destination_name">
-      </dev>
-      <dev class="form-item">  
-        <p>目的地（住所）</p>
-        <input type="text" class="form" name=" destinetion_address">
-      </dev>  
-      <div class="btn-align">
-          <button type="button" class="btn2" onclick="history.back()">戻る</button>
-          <input type="submit" class="btn1" value="追加">
-      </div>
-      </form>
-    </div>  
+{% extends 'base.html' %}
+  {% block title %}TRiP TRAIL - 予定の作成{% endblock %}
+  {% block contents %}
+  <div class="page-wrapper">
+    <header class="page-header">
+      <nav>
+        <ul class="main-nav">
+          <li><a href="/users/{{user_id}}">
+            <span class="material-symbols-outlined">
+            settings
+            </span>setting</a></li>
+          <li><a href="/logout"><span class="material-symbols-outlined">
+            logout
+            </span>logout</a></li>
+        </ul>
+     </nav>
+    </header>
+    <div class="container">
+      <div class="form-box">
+        <p class="form-title">予定の作成</p>
+        <form class="form-items" action="/schedules"  method="post" id="form">
+        <dev class="form-item">
+          <label name="date">日付</label>
+          <input type="date" class="form" name="date">
+        </dev>
+        <dev class="form-item">
+          <label name="destination">目的地</label>
+          <input type="text" class="form" name="destination">
+        </dev>
+        <dev class="form-item">  
+          <label name="destinetion_address">目的地（住所）</label>
+          <input type="text" class="form" name=" destinetion_address">
+        </dev>  
+        <div class="btn-align">
+            <button type="button" class="btn2" onclick="history.back()">戻る</button>
+            <input type="submit" class="btn1" value="追加">
+        </div>
+        </form>
+      </div>  
+    </div>
   </div>
-</body>
-
-</html>
+  {% endblock %}
