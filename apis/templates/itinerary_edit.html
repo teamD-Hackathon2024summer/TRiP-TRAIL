@@ -5,7 +5,7 @@
     <header class="page-header">
       <nav>
         <ul class="main-nav">
-          <li><a href="/users/{user_id}"><span class="material-symbols-outlined">
+          <li><a href="/user_edit"><span class="material-symbols-outlined">
             settings
             </span>setting</a></li>
           <li><a href="/logout"><span class="material-symbols-outlined">
@@ -17,7 +17,7 @@
   <div class="container">
     <div class="form-box">
       <p class="form-title">予定の修正</p>
-      <form class="form-items" action="/schedules/{schedule_id}"  method="PATCH" id="form">
+      <form class="form-items" action="/schedules/{{schedule_id}}"  method="PATCH" id="form">
       <dev class="form-item">
         <label name="date">日付</label>
         <input type="date" class="form" name="date" value={{schedule.date}}>
@@ -31,7 +31,7 @@
         <input type="text" class="form" name=" destination_address" value={{schedule.destination_address}}>
       </dev>  
       <div class="btn-align">
-          <button type="button" class="btn2" onclick="history.back()">戻る</button>
+          <button type="button" class="btn2" onclick='location.href="/index"'>戻る</button>
           <input type="submit" class="btn1" value="修正">
       </div>
       </form>

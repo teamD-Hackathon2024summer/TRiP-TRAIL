@@ -5,7 +5,7 @@
     <header class="page-header">
       <nav>
         <ul class="main-nav">
-          <li><a href="/users/{{user_id}}"><span class="material-symbols-outlined">
+          <li><a href="/user_edit"><span class="material-symbols-outlined">
             settings
             </span>setting</a></li>
           <li><a href="/logout"><span class="material-symbols-outlined">
@@ -15,10 +15,10 @@
       </nav>
     </header>
     <div class="align-center">
-      <a class="btn1" href="/schedules">旅行計画を新規作成</a>
+      <a class="btn1" href="/itinerary_create">旅行計画を新規作成</a>
     </div>
     <div class="list">
-      <table class="card" id="{{schedule.schedule_id}}">
+      <table class="card">
         <tr>
           <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
           <td class="trip-date">日　付：練習です</td>
@@ -32,9 +32,9 @@
           <td class="delete" rowspan="2"><button><span class="material-symbols-outlined">delete</span></button></td>
         </tr>
       </table>
-      <!-- jinja2template DBからuser_idに紐づいたschedulesの行を取得、行数に応じて付箋を表示 -->
+      {#<!-- jinja2template DBからuser_idに紐づいたschedulesの行を取得、行数に応じて付箋を表示 -->#}
       {% for schedule in schedules %}
-      <table class="card" id="{{schesule.schedule_id}}">
+      <table class="card" id="{{schedule.schedule_id}}">
         <tr>
           <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
           <td class="trip-date">日　付：{{schedule.date}}</td>
