@@ -29,7 +29,11 @@
             <tr>
                 <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
                 <td class="trip-date">日 付：{{ schedule.date }}</td>
-                <td class="edit" rowspan="2"><button><span class="material-symbols-outlined">edit_square</span></button></td>
+                <td class="edit" rowspan="2">
+                    <a href="/itinerary_edit/{{ schedule.schedule_id }}">
+                        <span class="material-symbols-outlined">edit_square</span>
+                    </a>
+                </td>
             </tr>
             <tr>
                 <td class="destination">目的地：{{ schedule.destination }}</td>

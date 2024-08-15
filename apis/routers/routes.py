@@ -126,7 +126,7 @@ def get_edituser_form_data(
     }
     return UserEdit(**form_data)
 
-@router.patch("/users", summary="ユーザー情報変更", description="ユーザー情報を変更します")
+@router.post("/users", summary="ユーザー情報変更", description="ユーザー情報を変更します")
 async def edit_user(
     user_data: UserEdit = Depends(get_edituser_form_data),
     current_user: dict = Depends(get_current_user)
@@ -232,7 +232,7 @@ def get_editschedule_form_data(
     }
     return ScheduleEdit(**form_data)
 
-@router.patch("/schedules/{schedule_id}", summary="予定の変更", description="予定を変更します")
+@router.post("/schedules/{schedule_id}", summary="予定の変更", description="予定を変更します")
 async def edit_schedule(
     schedule_id: int,
     schedule_data: ScheduleEdit = Depends(get_editschedule_form_data),

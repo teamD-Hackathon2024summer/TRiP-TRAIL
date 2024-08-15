@@ -43,9 +43,25 @@ async def itinerary_create(request: Request):
     return templates.TemplateResponse("itinerary_create.html", {"request": request})
 
 # 予定変更画面への遷移
-@router.get("/itinerary_edit", response_class=HTMLResponse)
-async def itinerary_edit(request: Request):
-    return templates.TemplateResponse("itinerary_edit.html", {"request": request})
+@router.get("/itinerary_edit/{schedule_id}", response_class=HTMLResponse)
+async def itinerary_edit(request: Request, schedule_id: int, user=Depends(get_current_user)):
+    try:
+        user_id = user["user_id"]
+
+        # 予定一覧を取得
+        schedules = get_schedules(user_id)
+
+        # `schedule_id` に一致するスケジュールを検索
+        schedule = next((s for s in schedules if s["schedule_id"] == schedule_id), None)
+
+        if schedule is None:
+            raise HTTPException(status_code=404, detail="Schedule not found")
+
+        # `schedule` 変数をテンプレートに渡す
+        return templates.TemplateResponse("itinerary_edit.html", {"request": request, "schedule": schedule})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 
 @router.get("/user_edit", response_class=HTMLResponse)
 async def user_info_edit(request: Request, user=Depends(get_current_user)):
