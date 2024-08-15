@@ -1,6 +1,8 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from models import get_schedules
+from security import get_current_user
 
 router = APIRouter()
 
@@ -16,10 +18,24 @@ async def login(request: Request):
 async def signup(request: Request):
     return templates.TemplateResponse("signup.html", {"request": request})
 
+# # メイン画面への遷移 使わない
+# @router.get("/index", response_class=HTMLResponse)
+# async def index(request: Request):
+#     return templates.TemplateResponse("index.html", {"request": request})
+
 # メイン画面への遷移
 @router.get("/index", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def view_schedules(request: Request, user=Depends(get_current_user)):
+    try:
+        user_id = user["user_id"]
+
+        # 予定一覧を取得
+        schedules = get_schedules(user_id)
+
+        # `schedules` 変数をテンプレートに渡す
+        return templates.TemplateResponse("index.html", {"request": request, "schedules": schedules})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 # 予定追加画面への遷移
 @router.get("/itinerary_create", response_class=HTMLResponse)
@@ -31,7 +47,10 @@ async def itinerary_create(request: Request):
 async def itinerary_edit(request: Request):
     return templates.TemplateResponse("itinerary_edit.html", {"request": request})
 
-# ユーザー情報変更画面への遷移
 @router.get("/user_edit", response_class=HTMLResponse)
-async def user_info_edit(request: Request):
-    return templates.TemplateResponse("user_info_edit.html", {"request": request})
+async def user_info_edit(request: Request, user=Depends(get_current_user)):
+    try:
+        # `user` 変数をテンプレートに渡す
+        return templates.TemplateResponse("user_edit.html", {"request": request, "user": user})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to load user information: {str(e)}")
