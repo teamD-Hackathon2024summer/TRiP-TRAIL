@@ -29,6 +29,8 @@ body {
   width: 100%;
   padding: 1.5rem;
   max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,6 +53,8 @@ body {
 .login-signup-box {
   display: flex;
   width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 1.5rem;
   max-width: 1280px;
   display: flex;
@@ -88,6 +92,14 @@ body {
 }
 
 .main-nav a:hover {
+  color: #0bd;
+}
+
+.main-nav form{
+  color: #432;
+}
+
+.main-nav form:hover {
   color: #0bd;
 }
 
@@ -180,6 +192,7 @@ body {
 }
 
 .route-btn {
+  border-style: double;
   border-radius: 3px;
   padding-left: 1rem;
   padding-right: 1rem;

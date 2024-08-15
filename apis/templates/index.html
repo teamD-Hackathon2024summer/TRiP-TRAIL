@@ -24,8 +24,9 @@
         <a class="btn1" href="/itinerary_create">旅行計画を新規作成</a>
     </div>
     <div class="list">
-        {% for schedule in schedules %}
-        <table class="card" id="{{ schedule.schedule_id }}">
+      {% for schedule in schedules %}
+      <div id="{{ schedule.schedule_id }}">
+        <table class="card" >
             <tr>
                 <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
                 <td class="trip-date">日 付：{{ schedule.date }}</td>
@@ -39,11 +40,37 @@
                 <td class="destination">目的地：{{ schedule.destination }}</td>
             </tr>
             <tr>
-                <td class="route" rowspan="2"><button class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
-                <td class="delete" rowspan="2"><button><span class="material-symbols-outlined">delete</span></button></td>
+                <td class="route" rowspan="2"><button type="button" onclick=location.href="/map/{{ schedule.schedule_id }}" class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
+                <td class="delete" rowspan="2"><button type="button" onclick='deleteSchedule("{{ schedule.schedule_id }}")'><span class="material-symbols-outlined">delete</span></button></td>
             </tr>
         </table>
-        {% endfor %}
+      </div>
+      {% endfor %}
     </div>
 </div>
+
+<script>
+  function deleteSchedule(id) {
+    fetch(`/schedules/${id}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Schedule deleted successfully');
+
+        const block = document.getElementById(`${id}`);
+        if (block) {
+          block.remove();
+        }
+        
+      } else {
+        console.error('Delete failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+</script>
+
 {% endblock %}

@@ -7,10 +7,15 @@
         <ul class="main-nav">
           <li><a href="/user_edit"><span class="material-symbols-outlined">
             settings
-            </span>setting</a></li>
-          <li><a href="/logout"><span class="material-symbols-outlined">
-            logout
-            </span>logout</a></li>
+            </span>setting</a>
+          </li>
+          <li>
+            <form action="/logout" method="POST" style="display: inline;">
+                <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;">
+                    <span class="material-symbols-outlined">logout</span>logout
+                </button>
+            </form>
+          </li>
         </ul>
      </nav>
     </header>
@@ -27,8 +32,8 @@
         </dev>
         <dev class="form-item">
           <label name="password1">パスワード</label>
-          <!-- パスワードは表示しなくてもいいのではないか？ -->
-          <input type="password" class="form" name="password1" value={{user.password}}>
+          <!-- パスワードは表示しなくてもいいのではないか？ ＝＞非表示にします-->
+          <input type="password" class="form" name="password1">
         </dev>  
         <dev class="form-item">
           <label name="password2">パスワード（確認用）</label>
