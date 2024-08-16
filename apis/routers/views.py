@@ -62,7 +62,7 @@ async def itinerary_edit(request: Request, schedule_id: int, user=Depends(get_cu
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
+# ユーザ情報変更画面への遷移
 @router.get("/user_edit", response_class=HTMLResponse)
 async def user_info_edit(request: Request, user=Depends(get_current_user)):
     try:
@@ -70,3 +70,8 @@ async def user_info_edit(request: Request, user=Depends(get_current_user)):
         return templates.TemplateResponse("user_edit.html", {"request": request, "user": user})
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to load user information: {str(e)}")
+    
+# エラー画面への遷移
+@router.get("/error", response_class=HTMLResponse)
+async def error(request: Request):
+    return templates.TemplateResponse("error.html", {"request": request})

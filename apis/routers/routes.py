@@ -101,7 +101,7 @@ async def login(
 @router.post("/logout", summary="ログアウト", description="ログアウトしてトークンを削除します")
 async def logout(response: Response):
     # クライアントのクッキーからトークンを削除
-    response.delete_cookie(key="access_token")
+    response.delete_cookie(key="access_token", path="/", domain=None)
 
     # ログアウト後にログイン画面にリダイレクト
     return RedirectResponse(url="login", status_code=303)
@@ -185,7 +185,6 @@ async def get_user_schedules(
         return {"schedules": schedules}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
-
     
 """  予定追加のエンドポイント """
 
@@ -271,6 +270,7 @@ async def edit_schedule(
         raise HTTPException(status_code=400, detail=str(e))
 
 """ 予定削除のエンドポイント """
+
 @router.delete("/schedules/{schedule_id}", summary="予定の削除", description="予定を削除します")
 async def del_schedule(
     schedule_id: int,
