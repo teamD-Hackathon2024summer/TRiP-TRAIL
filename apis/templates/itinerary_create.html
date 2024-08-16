@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+  {% block title %}TRiP TRAIL - 予定の作成{% endblock %}
+  {% block contents %}
+  <div class="page-wrapper">
+    <header class="page-header">
+      <nav>
+        <ul class="main-nav">
+          <li><a href="/user_edit">
+            <span class="material-symbols-outlined">
+            settings
+            </span>setting</a>
+          </li>
+          <li>
+            <form action="/logout" method="POST" style="display: inline;">
+              <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;">
+                <span class="material-symbols-outlined">logout</span>logout
+              </button>
+            </form>
+          </li>
+        </ul>
+     </nav>
+    </header>
+    <div class="container">
+      <div class="form-box">
+        <p class="form-title">予定の作成</p>
+        <form class="form-items" action="/schedules"  method="post" id="form">
+        <dev class="form-item">
+          <label name="date">日付</label>
+          <input type="date" class="form" name="date">
+        </dev>
+        <dev class="form-item">
+          <label name="destination">目的地</label>
+          <input type="text" class="form" name="destination">
+        </dev>
+        <dev class="form-item">  
+          <label name="destination_address">目的地（住所）</label>
+          <input type="text" class="form" name="destination_address">
+        </dev>  
+        <div class="btn-align">
+            <button type="button" class="btn2" onclick='location.href="/index"'>戻る</button>
+            <input type="submit" class="btn1" value="追加">
+        </div>
+        </form>
+      </div>  
+    </div>
+  </div>
+  {% endblock %}

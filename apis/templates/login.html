@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+  {% block title %}TRiP TRAIL - login{% endblock %}
+  {% block contents %}
+  <div>
+    <div class="login-signup-box">
+      <h1 class="logo-align">
+        <img class="logo-loginsignup" src="/static/img/trip_trail_logo.jpg" alt="">
+      </h1>
+      <div class="login-signup-items">
+        <p class="form-title">login</p>
+        <form class="form-items"  action="/login" method="post" id="form">
+          <dev class="form-item">
+            <label name="email">メールアドレス</label>
+            <input type="text" class="form" name="email">
+          </dev>
+          <dev class="form-item">
+            <label name="password">パスワード</label>
+            <input type="password" class="form" name="password">
+          </dev>  
+          <div class="btn-center">
+            <input type="submit" class="btn1" value="ログイン">
+          </div>
+        </form>
+        <div class="btn-center">
+          <a class="align-center move" href="/signup">新規登録はこちら</a>
+        </div>
+      </div>
+    </div>  
+  </div>
+  {% endblock %} 

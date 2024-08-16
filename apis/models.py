@@ -38,7 +38,7 @@ def get_user_address(user_id):
         return db.get_data(query = query, params = params)
 
 def get_schedules(user_id):
-    query = 'SELECT schedule_id, date, destination FROM schedules WHERE user_id = %s'
+    query = 'SELECT schedule_id, date, destination, destination_address FROM schedules WHERE user_id = %s'
     params = (user_id,)
     with DatabaseHandler() as db:
         return db.get_data(query = query, params = params)
