@@ -300,7 +300,6 @@ def get_coordinate(address):
     try:
         geocode = gmaps.geocode(address=address, region="JP")
         result = googlemaps.convert.latlng(geocode[0]["geometry"]["location"])
-        print(f"get_coordinate({address})の結果は:{result}")
         return result
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -314,9 +313,7 @@ def route(schedule_id: int):
 
         # データベースからそれぞれの住所を取得
         origin = get_user_address(user_id)[0]['user_address']
-        print(f"get_user_address({user_id})の結果は:{origin}")
         destination = get_destination_address(schedule_id)[0]['destination_address']
-        print(f"get_destination_address({schedule_id})の結果は:{destination}")
         # 住所から緯度経度情報を取得
         origin_coodinate = get_coordinate(origin)
         destination_coodinate = get_coordinate(destination)
@@ -324,7 +321,6 @@ def route(schedule_id: int):
         # ルート計算リクエスト
         try:
             route_data = gmaps.directions(origin_coodinate, destination_coodinate, language="ja", region="JP")[0]
-            print(f"ルート計算リクエストの結果は:{route_data}")# データ長い
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
             # エラー時の処理要検討 "HTTPSConnectionPool" これは通信エラーの場合
@@ -334,7 +330,6 @@ def route(schedule_id: int):
         polyline = repr(route_data["overview_polyline"]["points"])[1:-1]
         proxy_url = os.getenv("GMAPS_PROXY_URL")
         request = {"time": time, "polyline": polyline, "proxy_url": proxy_url}
-        print(f"レスポンスデータrequestの中身は:{request}")
 
         return templates.TemplateResponse(name="map.html", request=request)
     except Exception as e:
