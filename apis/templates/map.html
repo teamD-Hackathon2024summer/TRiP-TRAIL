@@ -19,10 +19,48 @@
         </ul>
       </nav>
     </header>
-    <main>
+    <main style="width: 100%">
       <div>googlemapの経路を表示</div>
-      <div>所要時間{{}}</div>
-      <button type="button" class="btn2" onclick='location.href="/index"'>戻る</button>
+      <div id="map" style="height: 500px"></div>
+      <p>所要時間は、{{ request.time }}位の予測です！</p>
+      <button type="button" class="btn2" onclick="history.back()">戻る</button>
     </main>
   </div>
+
+  <script>
+    const proxyUrl = "{{ request.proxy_url }}";
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=proxyUrl+e.toString();d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+      v: "weekly",
+    });
+    
+    async function initMap() {
+      const { Map } = await google.maps.importLibrary("maps");
+      const { Geometry } = await google.maps.importLibrary("geometry");
+      const map = new Map(document.getElementById("map"), {
+        center: { lat: 35.5, lng: 140 },
+        zoom: 10,
+      });
+      const encodedPolyline = "{{ request.polyline }}";
+      const decodedPath = google.maps.geometry.encoding.decodePath(encodedPolyline);
+
+      const polyline = new google.maps.Polyline({
+        path: decodedPath,
+        geodesic: true,
+        strokeColor: "blue",
+        strokeOpacity: 1.0,
+        strokeWeight: 4,
+      });
+      polyline.setMap(map);
+
+      const bounds = new google.maps.LatLngBounds();
+      decodedPath.forEach((latLng) => {
+        bounds.extend(latLng);
+      });
+
+      map.fitBounds(bounds);
+    }
+
+    initMap();
+
+  </script>
   {% endblock %}

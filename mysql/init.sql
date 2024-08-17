@@ -17,10 +17,10 @@ CREATE TABLE schedules (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- ここから下はテスト用データ------------------
+-- ここから下はテスト用データ------------------testuserのパスワードはtest
 INSERT INTO users (user_id, user_name, email, password, user_address)
-           VALUES (1, 'name1', 'sample@email.com1', 'password1', 'address1'),
-                  (2, 'name2', 'sample@email.com2', 'password2', 'address2');
+           VALUES (1, '名古屋市役所職員', 'sample@email.com1', '$2b$12$8MZt4A8ELwcPUKOc9pUbMO1FM3/ocsHMiEUE2K0eOAuLgm8nj.HC6', '愛知県名古屋市中区三の丸３丁目１−１'),
+                  (2, '清水寺の住職', 'sample@email.com2', '$2b$12$8MZt4A8ELwcPUKOc9pUbMO1FM3/ocsHMiEUE2K0eOAuLgm8nj.HC6', '京都府京都市東山区清水１丁目２９４');
 INSERT INTO schedules (user_id, date, destination, destination_address)
                VALUES (1, '2024-08-31', 'ディズニーランド', '千葉県浦安市舞浜１−１'),
                       (1, '2024-10-05', '東京タワー', '東京都港区芝公園４丁目２−８'),
