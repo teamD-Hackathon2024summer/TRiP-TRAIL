@@ -4,15 +4,17 @@ from fastapi.responses import RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
 from typing import Optional
 from schemas import  UserCreate, UserEdit, LoginForm, ScheduleCreate, ScheduleEdit
-from models import create_user, update_user, create_schedule, update_schedule, get_schedules, delete_schedule
+from models import create_user, update_user, create_schedule, update_schedule, get_schedules, delete_schedule, get_user_address, get_destination_address
 from users import get_user_by_username, get_user_by_email
 from security import hash_password, authenticate_user, create_access_token,get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import timedelta, date as dt_date
-# import googlemaps
+import googlemaps
 import os
+import requests
 
 router = APIRouter()
-
+GMAPS_API_KEY = os.getenv("GMAPS_API_KEY")
+gmaps = googlemaps.Client(key=GMAPS_API_KEY)
 templates = Jinja2Templates(directory="templates")
 
 """ テスト用 ユーザーの情報を取得するエンドポイント """
@@ -293,4 +295,53 @@ async def del_schedule(
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-        
+
+def get_coordinate(address):
+    try:
+        geocode = gmaps.geocode(address=address, region="JP")
+        result = googlemaps.convert.latlng(geocode[0]["geometry"]["location"])
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/map/{schedule_id}", summary="mapページ", description="mapページを表示します")
+def route(schedule_id: int):
+    try:
+        # ユーザー認証をして、user_idを取得する処理に差し替え予定
+        user_id = 1
+
+        # データベースからそれぞれの住所を取得
+        origin = get_user_address(user_id)[0]['user_address']
+        destination = get_destination_address(schedule_id)[0]['destination_address']
+        # 住所から緯度経度情報を取得
+        origin_coodinate = get_coordinate(origin)
+        destination_coodinate = get_coordinate(destination)
+
+        # ルート計算リクエスト
+        try:
+            route_data = gmaps.directions(origin_coodinate, destination_coodinate, language="ja", region="JP")[0]
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=str(e))
+            # エラー時の処理要検討 "HTTPSConnectionPool" これは通信エラーの場合
+
+        # レスポンスデータ作成
+        time = route_data["legs"][0]["duration"]["text"]
+        polyline = repr(route_data["overview_polyline"]["points"])[1:-1]
+        proxy_url = os.getenv("GMAPS_PROXY_URL")
+        request = {"time": time, "polyline": polyline, "proxy_url": proxy_url}
+
+        return templates.TemplateResponse(name="map.html", request=request)
+    except Exception as e:
+        return templates.TemplateResponse(name="error.html", request={"error": e})
+
+
+@router.get("/maps-proxy", summary="APIキー付加用プロキシ", description="リクエストにAPIキーを追加して代理リクエストします")
+def maps_api_proxy(libraries: str, v: str, callback: str):
+# フロントエンドからリクエストパラメータを受け取りAPIキーを追加してリクエストを送信、レスポンスはスクリプトデータ
+    params = {"libraries": libraries, "v": v, "callback": callback}
+    params["key"] = GMAPS_API_KEY
+
+    response = requests.get('https://maps.googleapis.com/maps/api/js', params=params)
+
+    return Response(content=response.content, media_type="application/javascript")

@@ -61,11 +61,12 @@ MYSQL_ROOT_PASSWORD=k6meN72tfeDxfk
 MYSQL_DB_FAST=mydatabase
 PORT_PMA_FAST=4081
 MYSQL_HOST_FAST=mysql_fast
+GMAPS_PROXY_URL=http://localhost:8080/maps-proxy?
 GMAPS_API_KEY=
 
 .envファイルに自分のGoogleMapのAPI_KEYを入力してください。
 GMAPS_API_KEY=
-
+2024/8/17追記:別の環境で使用するときはGMAPS_PROXY_URLのホスト部とポート番号を調整する必要があります
 
 Dockerコンテナのビルドと実行:
 

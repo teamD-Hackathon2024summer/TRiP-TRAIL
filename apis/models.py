@@ -42,3 +42,9 @@ def get_schedules(user_id):
     params = (user_id,)
     with DatabaseHandler() as db:
         return db.get_data(query = query, params = params)
+
+def get_destination_address(schedule_id):
+    query = 'SELECT destination_address FROM schedules WHERE schedule_id = %s'
+    params = (schedule_id,)
+    with DatabaseHandler() as db:
+        return db.get_data(query = query, params = params)
