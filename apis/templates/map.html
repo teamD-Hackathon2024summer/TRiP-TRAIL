@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
   {% block title %}TRiP TRAIL - 行程{% endblock %}
   {% block contents %}
-  <div class="page-wrapper">
-    <header class="page-header">
+  <div class="page-wrapper map">
+    <header class="page-header map">
       <nav>
         <ul class="main-nav">
           <li><a href="/user_edit"><span class="material-symbols-outlined">
@@ -19,11 +19,16 @@
         </ul>
       </nav>
     </header>
-    <main style="width: 100%">
-      <div>googlemapの経路を表示</div>
-      <div id="map" style="height: 500px"></div>
-      <p>所要時間は、{{ request.time }}位の予測です！</p>
-      <button type="button" class="btn2" onclick="history.back()">戻る</button>
+    <main class="map-container">
+      <div class="map-header">
+        <div class="map-header-navi">
+          <p>googlemapにて経路を表示</p>
+          <p>{{ request.time }}位の予測です！</p>
+        </div>
+        <button type="button" class="btn2" onclick="history.back()">戻る</button>
+      </div>
+      <div id="map" class="map-viewer"></div>
+      <p class="map-copyright">copyright: {{ request.copyrights }}</p>
     </main>
   </div>
 

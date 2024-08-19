@@ -327,9 +327,10 @@ def route(schedule_id: int):
 
         # レスポンスデータ作成
         time = route_data["legs"][0]["duration"]["text"]
+        copyrights = route_data["copyrights"]
         polyline = repr(route_data["overview_polyline"]["points"])[1:-1]
         proxy_url = os.getenv("GMAPS_PROXY_URL")
-        request = {"time": time, "polyline": polyline, "proxy_url": proxy_url}
+        request = {"time": time, "polyline": polyline, "proxy_url": proxy_url, "copyrights": copyrights}
 
         return templates.TemplateResponse(name="map.html", request=request)
     except Exception as e:
