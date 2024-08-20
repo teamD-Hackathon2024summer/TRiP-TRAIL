@@ -12,45 +12,50 @@ services:
       - ./apis:/home/appuser/devcon
     env_file:
       - .env
+    environment:
+      - MYSQL_HOST_FAST=${MYSQL_HOST_FAST}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DB_FAST=${MYSQL_DB_FAST}
     networks:
       - hackathon_summer_network
     ports:
       - ${PORT_FAST}:${PORT_FAST}
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "${PORT_FAST}", "--reload"]
 
-  mysql_fast:
-    build:
-      context: ./mysql
-      args:
-        - PORT_MYSQL_FAST=${PORT_MYSQL_FAST}
-        - MYSQL_USER=${MYSQL_USER}
-    volumes:
-      - ./mysql/data/db:/var/lib/mysql
-    environment:
-      - TZ=Asia/Tokyo
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    env_file:
-      - .env
-    networks:
-      - hackathon_summer_network
-    ports:
-      - ${PORT_MYSQL_FAST}:3306
+  # mysql_fast:
+  #   build:
+  #     context: ./mysql
+  #     args:
+  #       - PORT_MYSQL_FAST=${PORT_MYSQL_FAST}
+  #       - MYSQL_USER=${MYSQL_USER}
+  #   volumes:
+  #     - ./mysql/data/db:/var/lib/mysql
+  #   environment:
+  #     - TZ=Asia/Tokyo
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - hackathon_summer_network
+  #   ports:
+  #     - ${PORT_MYSQL_FAST}:3306
 
-  pma_fast:
-    build:
-      context: ./phpmyadmin
-    env_file:
-      - .env
-    networks:
-      - hackathon_summer_network
-    environment:
-      PMA_HOST: ${MYSQL_HOST_FAST}
-      PMA_PORT: ${PORT_MYSQL_FAST}
-    ports:
-      - ${PORT_PMA_FAST}:80
-    volumes:
-      - ./phpmyadmin/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+  # pma_fast:
+  #   build:
+  #     context: ./phpmyadmin
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - hackathon_summer_network
+  #   environment:
+  #     PMA_HOST: ${MYSQL_HOST_FAST}
+  #     PMA_PORT: ${PORT_MYSQL_FAST}
+  #   ports:
+  #     - ${PORT_PMA_FAST}:80
+  #   volumes:
+  #     - ./phpmyadmin/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
 
   nginx:
     build:
@@ -65,7 +70,7 @@ services:
       - hackathon_summer_network
     depends_on:
       - fastapi
-      - pma_fast
+      # - pma_fast
     restart: always
 
 networks:

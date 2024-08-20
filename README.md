@@ -37,7 +37,7 @@ triptrail
 - **FastAPI**: Python 3.7+用の標準的な型ヒントに基づいたAPIを構築するためのモダンで高速なウェブフレームワーク。
 - **Nginx**: 高性能なウェブサーバー、リバースプロキシサーバー、およびロードバランサー。
 - **MySQL**: オープンソースのリレーショナルデータベース管理システム。
-- **phpMyAdmin**: MySQLの管理をウェブ上で行うためのPHPで書かれた無料ソフトウェアツール。
+<!-- - **phpMyAdmin**: MySQLの管理をウェブ上で行うためのPHPで書かれた無料ソフトウェアツール。 -->
 - **Docker**: コンテナと呼ばれるパッケージでソフトウェアを提供するためのOSレベルの仮想化を使用するプラットフォームサービスのセット。
 
 ## セットアップ手順
@@ -59,8 +59,8 @@ MYSQL_USER=myuser
 MYSQL_PASSWORD=mypassword
 MYSQL_ROOT_PASSWORD=k6meN72tfeDxfk
 MYSQL_DB_FAST=mydatabase
-PORT_PMA_FAST=4081
-MYSQL_HOST_FAST=mysql_fast
+<!-- PORT_PMA_FAST=4081 -->
+MYSQL_HOST_FAST=triptrail-rds.cbq0yaio88vm.ap-northeast-1.rds.amazonaws.com
 GMAPS_PROXY_URL=http://localhost:8080/maps-proxy?
 GMAPS_API_KEY=
 
@@ -74,9 +74,9 @@ docker-compose build
 docker-compose up -d
 
 FastAPI: http://localhost:8080
-phpMyAdmin: http://localhost:4081
+<!-- phpMyAdmin: http://localhost:4081 -->
 
-既知の問題とTo-Doリスト
+<!-- 既知の問題とTo-Doリスト
 1. phpMyAdminのリダイレクト問題
 問題: http://localhost/phpmyadmin にアクセスすると404エラーが返されます。 https://localhost/phpmyadmin にアクセスすると301リダイレクトが返されます。
 To-Do: phpMyAdminが正しく設定され、Nginxリバースプロキシを通じてアクセス可能であることを確認する。
@@ -90,7 +90,7 @@ To-Do: 自己署名証明書を有効なSSL証明書に置き換える。
 ブラウザでは起動できなかった。
 CLIであれば入ることができる。
 
-phpMyAdminへのログインに使用するユーザー名とパスワードは、MySQLのユーザー情報に基づいています。以下の2つのアカウントがありますが、どちらを使用するかは必要な権限に応じて選択してください。
+phpMyAdminへのログインに使用するユーザー名とパスワードは、MySQLのユーザー情報に基づいています。以下の2つのアカウントがありますが、どちらを使用するかは必要な権限に応じて選択してください。 -->
 
 MySQLのrootユーザー
 ユーザー名: root

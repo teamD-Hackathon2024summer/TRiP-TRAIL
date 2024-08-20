@@ -4,7 +4,7 @@ import os
 # withを使ってインスタンス化すると自動実行される__の３つのメソッドで接続関連を制御、通常のメソッドの実行でデータの取得や操作を行う
 class DatabaseHandler:
     def __init__(self):
-        self.host = "mysql_fast"
+        self.host = os.getenv("MYSQL_HOST_FAST")
         self.user = os.getenv("MYSQL_USER")
         self.password = os.getenv("MYSQL_PASSWORD")
         self.database = os.getenv("MYSQL_DB_FAST")
