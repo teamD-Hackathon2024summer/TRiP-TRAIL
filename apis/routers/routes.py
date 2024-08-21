@@ -1,10 +1,10 @@
 # routers/routes.py
-from fastapi import APIRouter, HTTPException, Depends, Form
+from fastapi import APIRouter, HTTPException, Depends, Form, Request
 from fastapi.responses import RedirectResponse, Response
 from fastapi.templating import Jinja2Templates
 from typing import Optional
-from schemas import  UserCreate, UserEdit, LoginForm, ScheduleCreate, ScheduleEdit
-from models import create_user, update_user, create_schedule, update_schedule, get_schedules, delete_schedule, get_user_address, get_destination_address
+from schemas import  UserCreate, UserEdit, LoginForm, ScheduleCreate, ScheduleEdit, ProxyParams
+from models import create_user, update_user, create_schedule, update_schedule, get_schedules, delete_schedule, get_user_address, get_destination_info
 from users import get_user_by_username, get_user_by_email
 from security import hash_password, authenticate_user, create_access_token,get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import timedelta, date as dt_date
@@ -306,14 +306,22 @@ def get_coordinate(address):
 
 
 @router.get("/map/{schedule_id}", summary="mapページ", description="mapページを表示します")
-def route(schedule_id: int):
+def route(
+    schedule_id: int,
+    current_user: dict = Depends(get_current_user)
+):
     try:
-        # ユーザー認証をして、user_idを取得する処理に差し替え予定
-        user_id = 1
+        destination_info = get_destination_info(schedule_id)
+        if not destination_info:# 存在しないidの場合
+            raise HTTPException(status_code=403, detail="Forbidden")
+        user_id = current_user["user_id"]
+        destination_user_id = destination_info[0]["user_id"]
+        if user_id != destination_user_id:# user_idとschedule_idの組み合わせがおかしい場合
+            raise HTTPException(status_code=403, detail="Forbidden")
 
         # データベースからそれぞれの住所を取得
         origin = get_user_address(user_id)[0]['user_address']
-        destination = get_destination_address(schedule_id)[0]['destination_address']
+        destination = destination_info[0]['destination_address']
         # 住所から緯度経度情報を取得
         origin_coodinate = get_coordinate(origin)
         destination_coodinate = get_coordinate(destination)
@@ -338,13 +346,25 @@ def route(schedule_id: int):
     except Exception as e:
         return RedirectResponse(url=f"/error?error={e}", status_code=302)
 
+# リクエストの発行元を確認する
+def verify_origin(request: Request):
+    origin = request.headers.get("origin")
+    allowed_origins = ["https://dteam-triptrail.net", "http://localhost"]
+    if origin not in allowed_origins:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Origin not allowed"
+        )
 
 @router.get("/maps-proxy", summary="APIキー付加用プロキシ", description="リクエストにAPIキーを追加して代理リクエストします")
-def maps_api_proxy(libraries: str, v: str, callback: str):
+def maps_api_proxy(
+    current_user: dict = Depends(get_current_user),
+    params: ProxyParams = Depends()
+):
 # フロントエンドからリクエストパラメータを受け取りAPIキーを追加してリクエストを送信、レスポンスはスクリプトデータ
-    params = {"libraries": libraries, "v": v, "callback": callback}
-    params["key"] = GMAPS_API_KEY
+    params_dict = params.dict()
+    params_dict["key"] = GMAPS_API_KEY
 
-    response = requests.get('https://maps.googleapis.com/maps/api/js', params=params)
+    response = requests.get('https://maps.googleapis.com/maps/api/js', params=params_dict)
 
     return Response(content=response.content, media_type="application/javascript")
