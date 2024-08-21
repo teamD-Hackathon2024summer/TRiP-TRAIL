@@ -291,3 +291,30 @@ body {
     max-height: 100%;
   }
 }
+/* ---map.html-------------------------- */
+.page-wrapper.map {
+  height: 100vh;
+}
+.map-container {
+  width: 100%;
+  height: calc(100% - 34px);
+}
+.page-header.map {
+  height: 33.33px;
+}
+.map-header {
+  height: 48px;
+  display: flex;
+}
+.map-header-navi {
+  margin: 0 auto;
+}
+.map-viewer {
+  height: calc(100% - 53px);
+  min-height: 440px;
+  margin-top: 5px;
+}
+.map-copyright {
+  text-align: right;
+}
+/* ---map.htmlここまで------------------ */

@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, model_validator
 import re
 from datetime import date as dt_date
 import datetime
@@ -160,3 +160,17 @@ class ScheduleEdit(BaseModel):
         if v and v < dt_date.today():
             raise ValueError('The date cannot be in the past.')
         return v
+
+class ProxyParams(BaseModel):
+    libraries: str
+    v: str
+    callback: str
+
+    @model_validator(mode='before')
+    def check_parameters(cls, values):
+        libraries = values.get('libraries')
+        v = values.get('v')
+        callback = values.get('callback')
+        if libraries != "maps" or v != 'weekly' or callback != 'google.maps.__ib__':
+            raise ValueError('parameter is invalid')
+        return values

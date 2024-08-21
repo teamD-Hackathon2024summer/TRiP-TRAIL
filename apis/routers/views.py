@@ -73,5 +73,5 @@ async def user_info_edit(request: Request, user=Depends(get_current_user)):
     
 # エラー画面への遷移
 @router.get("/error", response_class=HTMLResponse)
-async def error(request: Request):
-    return templates.TemplateResponse("error.html", {"request": request})
+async def error(request: Request, error: str):
+    return templates.TemplateResponse("error.html", {"request": request, "error": error})
