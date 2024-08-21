@@ -41,9 +41,11 @@
     async function initMap() {
       const { Map } = await google.maps.importLibrary("maps");
       const { Geometry } = await google.maps.importLibrary("geometry");
+      const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
       const map = new Map(document.getElementById("map"), {
         center: { lat: 35.5, lng: 140 },
         zoom: 10,
+        mapId: "MAP_ID"
       });
       const encodedPolyline = "{{ request.polyline }}";
       const decodedPath = google.maps.geometry.encoding.decodePath(encodedPolyline);
@@ -61,8 +63,24 @@
       decodedPath.forEach((latLng) => {
         bounds.extend(latLng);
       });
-
       map.fitBounds(bounds);
+
+      const start = JSON.parse('{{ request.start|tojson }}');
+      const end = JSON.parse('{{ request.end|tojson }}');
+      const startMarker = new google.maps.marker.AdvancedMarkerElement(
+        {
+          position: new google.maps.LatLng(start.lat, start.lng),
+          map: map,
+          title: "Start"
+        }
+      );
+      const endMarker = new google.maps.marker.AdvancedMarkerElement(
+        {
+          position: new google.maps.LatLng(end.lat, end.lng),
+          map: map,
+          title: "End"
+        }
+      );
     }
 
     initMap();
