@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
   {% block title %}TRiP TRAIL - 行程{% endblock %}
   {% block contents %}
-  <div class="page-wrapper">
-    <header class="page-header">
+  <div class="page-wrapper map">
+    <header class="page-header map">
       <nav>
         <ul class="main-nav">
           <li><a href="/user_edit"><span class="material-symbols-outlined">
@@ -19,11 +19,16 @@
         </ul>
       </nav>
     </header>
-    <main style="width: 100%">
-      <div>googlemapの経路を表示</div>
-      <div id="map" style="height: 500px"></div>
-      <p>所要時間は、{{ request.time }}位の予測です！</p>
-      <button type="button" class="btn2" onclick="history.back()">戻る</button>
+    <main class="map-container">
+      <div class="map-header">
+        <div class="map-header-navi">
+          <p>googlemapにて経路を表示</p>
+          <p>{{ request.time }}位の予測です！</p>
+        </div>
+        <button type="button" class="btn2" onclick="history.back()">戻る</button>
+      </div>
+      <div id="map" class="map-viewer"></div>
+      <p class="map-copyright">copyright: {{ request.copyrights }}</p>
     </main>
   </div>
 
@@ -36,9 +41,11 @@
     async function initMap() {
       const { Map } = await google.maps.importLibrary("maps");
       const { Geometry } = await google.maps.importLibrary("geometry");
+      const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
       const map = new Map(document.getElementById("map"), {
         center: { lat: 35.5, lng: 140 },
         zoom: 10,
+        mapId: "MAP_ID"
       });
       const encodedPolyline = "{{ request.polyline }}";
       const decodedPath = google.maps.geometry.encoding.decodePath(encodedPolyline);
@@ -56,8 +63,24 @@
       decodedPath.forEach((latLng) => {
         bounds.extend(latLng);
       });
-
       map.fitBounds(bounds);
+
+      const start = JSON.parse('{{ request.start|tojson }}');
+      const end = JSON.parse('{{ request.end|tojson }}');
+      const startMarker = new google.maps.marker.AdvancedMarkerElement(
+        {
+          position: new google.maps.LatLng(start.lat, start.lng),
+          map: map,
+          title: "Start"
+        }
+      );
+      const endMarker = new google.maps.marker.AdvancedMarkerElement(
+        {
+          position: new google.maps.LatLng(end.lat, end.lng),
+          map: map,
+          title: "End"
+        }
+      );
     }
 
     initMap();
