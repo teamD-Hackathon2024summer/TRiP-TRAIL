@@ -61,12 +61,13 @@ MYSQL_ROOT_PASSWORD=k6meN72tfeDxfk
 MYSQL_DB_FAST=mydatabase
 <!-- PORT_PMA_FAST=4081 -->
 MYSQL_HOST_FAST=triptrail-rds.cbq0yaio88vm.ap-northeast-1.rds.amazonaws.com
-GMAPS_PROXY_URL=http://localhost:8080/maps-proxy?
+GMAPS_PROXY_URL=http://dteam-triptrail.net:443/maps-proxy?
 GMAPS_API_KEY=
 
 .envファイルに自分のGoogleMapのAPI_KEYを入力してください。
 GMAPS_API_KEY=
 2024/8/17追記:別の環境で使用するときはGMAPS_PROXY_URLのホスト部とポート番号を調整する必要があります
+2024/8/21追記：GMAPS_PROXY_URLに本番環境用を記載
 
 Dockerコンテナのビルドと実行:
 
