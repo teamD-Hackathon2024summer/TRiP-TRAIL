@@ -336,7 +336,7 @@ def route(schedule_id: int):
 
         return templates.TemplateResponse(name="map.html", request=request)
     except Exception as e:
-        return templates.TemplateResponse(name="error.html", request={"error": e})
+        return RedirectResponse(url=f"/error?error={e}", status_code=302)
 
 
 @router.get("/maps-proxy", summary="APIキー付加用プロキシ", description="リクエストにAPIキーを追加して代理リクエストします")
