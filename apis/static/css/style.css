@@ -319,7 +319,7 @@ body {
 }
 /* ---map.htmlここまで------------------ */
 
-/* 予定削除の確認用モーダル */
+/* index.html 予定削除の確認用モーダル */
 .modal {
   display: none; /* Initially hidden */
   position: fixed;
@@ -348,8 +348,3 @@ body {
   margin-right: 3rem;
   margin-left: 3rem;
 }
-
-/* #comfirm-delete,
-#comfirm-cancel{
-
-} */
