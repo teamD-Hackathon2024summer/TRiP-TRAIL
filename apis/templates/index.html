@@ -41,36 +41,65 @@
             </tr>
             <tr>
                 <td class="route" rowspan="2"><button type="button" onclick=location.href="/map/{{ schedule.schedule_id }}" class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
-                <td class="delete" rowspan="2"><button type="button" onclick='deleteSchedule("{{ schedule.schedule_id }}")'><span class="material-symbols-outlined">delete</span></button></td>
+                <td class="delete" rowspan="2"><button type="button" onclick="showModal({{ schedule.schedule_id }}, '{{ schedule.date }}', '{{ schedule.destination }}')"><span class="material-symbols-outlined">delete</span></button></td>
             </tr>
         </table>
       </div>
       {% endfor %}
+      <div id="modal" class="modal">
+        <div class="modal-content">
+            <p id="modal-text">この予定を削除しますか？</p>
+            <ul class="confirm-btns">
+              <li><button id="confirm-delete">はい</button></li>
+              <li><button id="cancel-delete">いいえ</button></li>
+            </ul>
+        </div>
+      </div>
     </div>
 </div>
 
 <script>
-  function deleteSchedule(id) {
-    fetch(`/schedules/${id}`, {
-      method: 'DELETE'
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('Schedule deleted successfully');
+const modal = document.getElementById('modal');
+const modalText = document.getElementById('modal-text');
+const confirmDelete = document.getElementById('confirm-delete');
+const cancelDelete = document.getElementById('cancel-delete');
+let currentScheduleId;
 
-        const block = document.getElementById(`${id}`);
-        if (block) {
-          block.remove();
+// モーダルを表示
+function showModal(id, date, destination) {
+    currentScheduleId = id;
+    modalText.innerText = `この予定（${date} - ${destination}）を削除しますか？`;
+    modal.style.display = 'block';
+}
+
+// モーダルの"はい"ボタン
+confirmDelete.onclick = async function() {
+    await fetch(`/schedules/${currentScheduleId}`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Schedule deleted successfully');       
+          const block = document.getElementById(`${currentScheduleId}`);
+          if (block) {
+            block.remove();
+          }
+          
+        } else {
+          console.error('Delete failed');
         }
-        
-      } else {
-        console.error('Delete failed');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      modal.style.display = 'none';
+    };
+
+
+// モーダルの"いいえ"ボタン
+cancelDelete.onclick = function() {
+    modal.style.display = 'none';
+};
 </script>
 
 {% endblock %}
