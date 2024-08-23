@@ -41,7 +41,7 @@
             </tr>
             <tr>
                 <td class="route" rowspan="2"><button type="button" onclick=location.href="/map/{{ schedule.schedule_id }}" class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
-                <td class="delete" rowspan="2"><button type="button" onclick="showModal({{ schedule.schedule_id }}, '{{ schedule.date }}', '{{ schedule.destination }}')"><span class="material-symbols-outlined">delete</span></button></td>
+                <td class="delete" rowspan="2"><button type="button" onclick="showModal('{{ schedule.schedule_id }}', '{{ schedule.date }}', '{{ schedule.destination }}')"><span class="material-symbols-outlined">delete</span></button></td>
             </tr>
         </table>
       </div>
