@@ -1,12 +1,24 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from models import get_schedules
-from security import get_current_user
+from jose import JWTError
+from security import get_current_user, oauth2_scheme, SECRET_KEY, ALGORITHM
 
 router = APIRouter()
 
 templates = Jinja2Templates(directory="templates")
+
+
+# ルートエンドポイント  トークンを検証し画面遷移先を決める
+@router.get("/")
+async def root(request: Request):
+    # トークンを検証
+    token = request.cookies.get("access_token")
+    if token is None:
+        return RedirectResponse(url="/login")
+    else:
+        return RedirectResponse(url="/index")
 
 # ログイン画面への遷移
 @router.get("/login", response_class=HTMLResponse)
@@ -70,8 +82,3 @@ async def user_info_edit(request: Request, user=Depends(get_current_user)):
         return templates.TemplateResponse("user_edit.html", {"request": request, "user": user})
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Failed to load user information: {str(e)}")
-    
-# エラー画面への遷移
-@router.get("/error", response_class=HTMLResponse)
-async def error(request: Request, error: str):
-    return templates.TemplateResponse("error.html", {"request": request, "error": error})
