@@ -12,7 +12,3 @@ app.include_router(views_router)
 # 静的ファイルの設定
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# ルートエンドポイント
-@app.get("/")
-async def read_root():
-    return {"message": "Hello World"}
