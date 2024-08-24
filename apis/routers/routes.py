@@ -344,7 +344,7 @@ def route(
 
         return templates.TemplateResponse(name="map.html", request=request)
     except Exception as e:
-        return RedirectResponse(url=f"/error?error={e}", status_code=302)
+        raise HTTPException(status_code=400, detail=str(e))
 
 # リクエストの発行元を確認する
 def verify_origin(request: Request):
