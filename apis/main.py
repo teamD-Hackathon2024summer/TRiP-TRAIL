@@ -26,7 +26,7 @@ def exception_handler_http(request: Request, exc: HTTPException):
     return templates.TemplateResponse(name="error.html", request=body)
 
 @app.exception_handler(RequestValidationError)
-def exception_handler_request_valid_error(request: Request, exc: RequestValidationError):
+def exception_handler_request_validation_error(request: Request, exc: RequestValidationError):
     body = {"messages": []}
     for error in exc.errors():
         loc = error["loc"][1]
@@ -35,6 +35,11 @@ def exception_handler_request_valid_error(request: Request, exc: RequestValidati
     return templates.TemplateResponse(name="error.html", request=body)
 
 @app.exception_handler(MySQLError)
-def exception_handler(request: Request, exc: MySQLError):
+def exception_handler_mysql_error(request: Request, exc: MySQLError):
     body = {"messages": ["データベース接続エラーです"]}
+    return templates.TemplateResponse(name="error.html", request=body)
+
+@app.exception_handler(ValueError)
+def exception_handler_value_error(request: Request, exc: ValueError):
+    body = {"messages": ["間違った値を入力していませんか？"]}
     return templates.TemplateResponse(name="error.html", request=body)
