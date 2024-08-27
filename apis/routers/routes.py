@@ -102,11 +102,12 @@ async def login(
 
 @router.post("/logout", summary="ログアウト", description="ログアウトしてトークンを削除します")
 async def logout(response: Response):
+    # ログアウト後にログイン画面にリダイレクト
+    response = RedirectResponse(url="login", status_code=303)
     # クライアントのクッキーからトークンを削除
     response.delete_cookie(key="access_token", path="/", domain=None)
 
-    # ログアウト後にログイン画面にリダイレクト
-    return RedirectResponse(url="login", status_code=303)
+    return response
 
 """ ユーザー情報変更のエンドポイント """
 
