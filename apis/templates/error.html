@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block contents %}
+<div style="text-align: center;">
+  <h1 style="margin: 20px 0 30px;">エラーです！</h1>
+  <ul id="error-list"></ul>
+</div>
+
+
+<script>
+  const errorBody = JSON.parse('{{ request|tojson }}');
+  const ul = document.getElementById("error-list");
+  const errorMessages = errorBody["messages"];
+
+  for (let i=0; i<errorMessages.length; i++) {
+    const li = document.createElement("li");
+    const text = errorMessages[i];
+    li.textContent = text;
+    ul.appendChild(li);
+  }
+
+</script>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}TRiP TRAIL - 予定一覧{% endblock %}
+{% block contents %}
+<div class="page-wrapper">
+    <header class="page-header">
+        <nav>
+            <ul class="main-nav">
+                <li>
+                    <a href="/user_edit">
+                        <span class="material-symbols-outlined">settings</span>setting
+                    </a>
+                </li>
+                <li>
+                    <form action="/logout" method="POST" style="display: inline;">
+                        <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer;">
+                            <span class="material-symbols-outlined">logout</span>logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="align-center">
+        <a class="btn1" href="/itinerary_create">旅行計画を新規作成</a>
+    </div>
+    <div class="list">
+      {% for schedule in schedules %}
+      <div id="{{ schedule.schedule_id }}">
+        <table class="card" >
+            <tr>
+                <td class="done" rowspan="4"><span class="material-symbols-outlined">radio_button_unchecked</span></td>
+                <td class="trip-date">日 付：{{ schedule.date }}</td>
+                <td class="edit" rowspan="2">
+                    <a href="/itinerary_edit/{{ schedule.schedule_id }}">
+                        <span class="material-symbols-outlined">edit_square</span>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="destination">目的地：{{ schedule.destination }}</td>
+            </tr>
+            <tr>
+                <td class="route" rowspan="2"><button type="button" onclick=location.href="/map/{{ schedule.schedule_id }}" class="route-btn"><span class="material-symbols-outlined">directions_car</span>経路</button></td>
+                <td class="delete" rowspan="2"><button type="button" onclick="showModal('{{ schedule.schedule_id }}', '{{ schedule.date }}', '{{ schedule.destination }}')"><span class="material-symbols-outlined">delete</span></button></td>
+            </tr>
+        </table>
+      </div>
+      {% endfor %}
+      <div id="modal" class="modal">
+        <div class="modal-content">
+            <p id="modal-text">この予定を削除しますか？</p>
+            <ul class="confirm-btns">
+              <li><button id="confirm-delete">はい</button></li>
+              <li><button id="cancel-delete">いいえ</button></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+const modal = document.getElementById('modal');
+const modalText = document.getElementById('modal-text');
+const confirmDelete = document.getElementById('confirm-delete');
+const cancelDelete = document.getElementById('cancel-delete');
+let currentScheduleId;
+
+// モーダルを表示
+function showModal(id, date, destination) {
+    currentScheduleId = id;
+    modalText.innerText = `この予定（${date} - ${destination}）を削除しますか？`;
+    modal.style.display = 'block';
+}
+
+// モーダルの"はい"ボタン
+confirmDelete.onclick = async function() {
+    await fetch(`/schedules/${currentScheduleId}`, {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (response.ok) {
+          console.log('Schedule deleted successfully');       
+          const block = document.getElementById(`${currentScheduleId}`);
+          if (block) {
+            block.remove();
+          }
+          
+        } else {
+          console.error('Delete failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+      modal.style.display = 'none';
+    };
+
+
+// モーダルの"いいえ"ボタン
+cancelDelete.onclick = function() {
+    modal.style.display = 'none';
+};
+</script>
+
+{% endblock %}

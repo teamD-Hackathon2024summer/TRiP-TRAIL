@@ -8,3 +8,6 @@ databases
 aiomysql
 python-jose
 googlemaps
+cryptography
+jinja2
+python-multipart
